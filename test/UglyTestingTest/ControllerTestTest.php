@@ -28,7 +28,7 @@ class AbstractControllerTestTest extends \PHPUnit_Framework_TestCase
 
     public function testController()
     {
-        $this->controllerTest->controller(TestController::class);
+        $this->controllerTest->testsController(TestController::class);
 
         $mock = $this->getMock(ClassMethods::class, ['hydrate']);
         $mock->expects($this->once())
@@ -36,10 +36,11 @@ class AbstractControllerTestTest extends \PHPUnit_Framework_TestCase
 
         $this->controllerTest->givenMockedClass('hydrator', $mock);
         $this->controllerTest->givenMockedClass('anotherHydrator', $mock);
-        $this->controllerTest->route('/test')
-            ->withQueryParameters(['jimmy' => 'nail'])
+        $this->controllerTest->givenRoute('/test')
+            ->givenQueryParameters(['jimmy' => 'nail'])
+            ->shouldRouteTo('test-route')
             ->shouldRunAction('index', 'test-route')
-            ->andReturnA(ViewModel::class)
-            ->withViewVariables(['jimmy' => 'nail']);
+            ->shouldReturnA(ViewModel::class)
+            ->shouldHaveViewVariables(['jimmy' => 'nail']);
     }
 }
