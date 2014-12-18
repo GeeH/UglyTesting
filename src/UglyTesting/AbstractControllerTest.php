@@ -18,7 +18,7 @@ use Zend\View\Model\ModelInterface;
  * Date: 17/12/14
  * @GeeH
  */
-abstract class ControllerTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Application
@@ -40,6 +40,10 @@ abstract class ControllerTest extends \PHPUnit_Framework_TestCase
      * @var ModelInterface
      */
     protected $model;
+    /**
+     * @var string
+     */
+    public $config = 'config/application.config.php';
 
     /**
      * Sets the controller name and checks the controller is able to be located
@@ -60,7 +64,7 @@ abstract class ControllerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUpServiceManager()
     {
-        $this->serviceManager = Application::init(require 'config/application.config.php')->getServiceManager();
+        $this->serviceManager = Application::init(require $this->config)->getServiceManager();
         $this->serviceManager->setAllowOverride(true);
         $this->controllerManager = $this->serviceManager->get('ControllerManager');
         $this->application       = $this->serviceManager->get('Application');
@@ -157,6 +161,22 @@ abstract class ControllerTest extends \PHPUnit_Framework_TestCase
         /** @var Request $request */
         $request = $this->application->getRequest();
         $request->setQuery(new Parameters($parameters));
+        return $this;
+    }
+
+    public function givenMockedClass($property, $mock)
+    {
+        $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
+        if(method_exists($this->controllerClass, $setter)) {
+            $this->controllerClass->$setter($mock);
+            return $this;
+        }
+
+        $refObject   = new ReflectionObject($this->controllerClass);
+        $refProperty = $refObject->getProperty($property);
+        $refProperty->setAccessible(true);
+        $refProperty->setValue($this->controllerClass, $mock);
+        $refProperty->setAccessible(false);
         return $this;
     }
 

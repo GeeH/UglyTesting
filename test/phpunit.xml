@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- works fine with PHPUnit-3.6.10 -->
+<phpunit
+        bootstrap="./Bootstrap.php"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        verbose="true"
+        stopOnFailure="false"
+        processIsolation="false"
+        backupGlobals="false"
+        syntaxCheck="true"
+        >
+    <testsuites>
+        <testsuite name="UglyTestingTest">
+            <directory>./UglyTestingTest</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
