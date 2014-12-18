@@ -2,9 +2,8 @@
     "name": "geeh/ugly-testing",
     "description": "Ugly Controller Testing Framework for ZF2",
     "require-dev": {
-        "codeclimate/php-test-reporter": "dev-master"
     },
-    "license": "MIT",
+    "license": "New BSD",
     "authors": [
         {
             "name": "Gary Hockin",
