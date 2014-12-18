@@ -36,7 +36,7 @@ class AbstractControllerTestTest extends \PHPUnit_Framework_TestCase
 
         $this->controllerTest->givenMockedClass('hydrator', $mock);
         $this->controllerTest->givenMockedClass('anotherHydrator', $mock);
-        $this->controllerTest->givenRoute('/test')
+        $this->controllerTest->givenUrl('/test')
             ->givenQueryParameters(['jimmy' => 'nail'])
             ->shouldRouteTo('test-route')
             ->shouldRunAction('index', 'test-route')

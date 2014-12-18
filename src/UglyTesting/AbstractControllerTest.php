@@ -21,6 +21,10 @@ use Zend\View\Model\ModelInterface;
 abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var string
+     */
+    public $config = 'config/application.config.php';
+    /**
      * @var Application
      */
     protected $application;
@@ -40,10 +44,6 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
      * @var ModelInterface
      */
     protected $model;
-    /**
-     * @var string
-     */
-    public $config = 'config/application.config.php';
 
     /**
      * Sets the controller name and checks the controller is able to be located
@@ -51,16 +51,17 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
      * @param $controllerName
      * @return $this
      */
-    public function controller($controllerName)
+    public function testsController($controllerName)
     {
         $this->setUpServiceManager();
         $this->controllerName = $controllerName;
         $this->createController();
+
         return $this;
     }
 
     /**
-     * Sets up the gubbins needed to run
+     * Sets up the application that is needed to run the integration tests
      */
     protected function setUpServiceManager()
     {
@@ -80,18 +81,23 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Sets the Uri of the request to spoof the Uri that was requested
+     *
      * @param $uri
      * @return $this
      */
-    public function route($uri)
+    public function givenUrl($uri)
     {
         $request = new Request();
         $request->setUri($uri);
         $this->setRequest($request);
+
         return $this;
     }
 
     /**
+     * Sets the request to the right places
+     *
      * @param $request
      */
     protected function setRequest($request)
@@ -105,18 +111,25 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Asserts that the returned ViewModel has the expected view variables set
+     *
      * @param array $variables
+     * @return $this
      */
-    public function withViewVariables(array $variables)
+    public function shouldHaveViewVariables(array $variables)
     {
         $this->assertEquals($this->model->getVariables(), $variables);
+
+        return $this;
     }
 
     /**
+     * Asserts that the returned ViewModelInterface is of the correct type (dispatches request)
+     *
      * @param $modelType
      * @return $this
      */
-    public function andReturnA($modelType)
+    public function shouldReturnA($modelType)
     {
         $this->controllerClass->setEvent($this->application->getMvcEvent());
         $response = $this->controllerClass->dispatch($this->application->getRequest());
@@ -129,11 +142,41 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Asserts that the action that is resolved by router is correct
+     *
      * @param $action
-     * @param null $name
      * @return $this
      */
-    public function shouldRunAction($action, $name = null)
+    public function shouldRunAction($action)
+    {
+        $this->assertEquals($action, $this->application->getMvcEvent()->getRouteMatch()->getParam('action'));
+
+        return $this;
+
+    }
+
+    /**
+     * Sets the query string parameters that would be sent with the Uri
+     *
+     * @param array $parameters
+     * @return $this
+     */
+    public function givenQueryParameters(array $parameters)
+    {
+        /** @var Request $request */
+        $request = $this->application->getRequest();
+        $request->setQuery(new Parameters($parameters));
+
+        return $this;
+    }
+
+    /**
+     * Checks that the routed Uri resolves to the expected route name (routes request)
+     *
+     * @param $routeName
+     * @return $this
+     */
+    public function shouldRouteTo($routeName)
     {
         $routerFactory = new RouterFactory();
         /** @var RouteStackInterface $router */
@@ -143,31 +186,22 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
         $match = $this->application->getMvcEvent()->getRouter()->match($this->application->getRequest());
         $this->application->getMvcEvent()->setRouteMatch($match);
 
-        $this->assertEquals($action, $this->application->getMvcEvent()->getRouteMatch()->getParam('action'));
+        $this->assertEquals($match->getMatchedRouteName(), $routeName);
 
-        if (is_string($name)) {
-            $this->assertEquals($name, $this->application->getMvcEvent()->getRouteMatch()->getMatchedRouteName());
-        }
         return $this;
-
     }
 
     /**
-     * @param array $parameters
+     * Sets a property of the controller to a mock object either by setter, or by reflection
+     *
+     * @param $property
+     * @param $mock
      * @return $this
      */
-    public function withQueryParameters(array $parameters)
-    {
-        /** @var Request $request */
-        $request = $this->application->getRequest();
-        $request->setQuery(new Parameters($parameters));
-        return $this;
-    }
-
     public function givenMockedClass($property, $mock)
     {
         $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
-        if(method_exists($this->controllerClass, $setter)) {
+        if (method_exists($this->controllerClass, $setter)) {
             $this->controllerClass->$setter($mock);
             return $this;
         }
@@ -177,6 +211,7 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
         $refProperty->setAccessible(true);
         $refProperty->setValue($this->controllerClass, $mock);
         $refProperty->setAccessible(false);
+
         return $this;
     }
 
