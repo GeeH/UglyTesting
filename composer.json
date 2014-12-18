@@ -2,6 +2,8 @@
     "name": "geeh/ugly-testing",
     "description": "Ugly Controller Testing Framework for ZF2",
     "require-dev": {
+        "zendframework/zendframework": "~2.3",
+        "phpunit/phpunit": "~3.7"
     },
     "license": "New BSD",
     "authors": [
