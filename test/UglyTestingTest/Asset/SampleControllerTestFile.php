@@ -8,9 +8,9 @@
 namespace UglyTestingTest\Asset;
 
 
-use UglyTesting\AbstractControllerTest;
+use UglyTesting\AbstractControllerTestCase;
 
-class SampleControllerTestFile extends AbstractControllerTest
+class SampleControllerTestFile extends AbstractControllerTestCase
 {
 
 }
