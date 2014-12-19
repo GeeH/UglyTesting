@@ -179,12 +179,15 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     public function shouldRouteTo($routeName)
     {
         $routerFactory = new RouterFactory();
-        /** @var RouteStackInterface $router */
+        
+        /* @var RouteStackInterface $router */
         $router = $routerFactory->createService($this->serviceManager);
-        $this->application->getMvcEvent()->setRouter($router);
+        
+        $mvcEvent = $this->application->getMvcEvent();
+        $mvcEvent->setRouter($router);
 
-        $match = $this->application->getMvcEvent()->getRouter()->match($this->application->getRequest());
-        $this->application->getMvcEvent()->setRouteMatch($match);
+        $match = $mvcEvent->getRouter()->match($this->application->getRequest());
+        $mvcEvent->setRouteMatch($match);
 
         $this->assertEquals($match->getMatchedRouteName(), $routeName);
 
