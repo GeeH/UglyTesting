@@ -12,34 +12,40 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\DispatchableInterface;
 use Zend\Stdlib\Parameters;
 use Zend\View\Model\ModelInterface;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * Created by Gary Hockin.
  * Date: 17/12/14
  * @GeeH
  */
-abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractControllerTest extends TestCase
 {
     /**
      * @var string
      */
     public $config = 'config/application.config.php';
+
     /**
      * @var Application
      */
     protected $application;
+
     /**
      * @var string
      */
     protected $controllerName;
+
     /**
      * @var AbstractActionController
      */
     protected $controllerClass;
+
     /**
      * @var ServiceManager
      */
     protected $serviceManager;
+
     /**
      * @var ModelInterface
      */
@@ -179,10 +185,10 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     public function shouldRouteTo($routeName)
     {
         $routerFactory = new RouterFactory();
-        
+
         /* @var RouteStackInterface $router */
         $router = $routerFactory->createService($this->serviceManager);
-        
+
         $mvcEvent = $this->application->getMvcEvent();
         $mvcEvent->setRouter($router);
 
@@ -217,5 +223,4 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
 
         return $this;
     }
-
 }
