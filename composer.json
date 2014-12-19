@@ -9,7 +9,8 @@
     "require": {},
     "require-dev": {
         "zendframework/zendframework": "~2.3",
-        "phpunit/phpunit": "~4.2.4"
+        "phpunit/phpunit": "~4.2.4",
+        "squizlabs/php_codesniffer": "~1.5.5"
     },
     "autoload": {
         "psr-0": {
