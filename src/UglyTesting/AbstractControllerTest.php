@@ -71,8 +71,12 @@ abstract class AbstractControllerTest extends TestCase
      */
     protected function setUpServiceManager()
     {
-        $this->serviceManager = Application::init(require $this->config)->getServiceManager();
+        $this->serviceManager = Application::init(
+            require $this->config
+        )->getServiceManager();
+
         $this->serviceManager->setAllowOverride(true);
+
         $this->controllerManager = $this->serviceManager->get('ControllerManager');
         $this->application       = $this->serviceManager->get('Application');
     }
@@ -82,8 +86,14 @@ abstract class AbstractControllerTest extends TestCase
      */
     protected function createController()
     {
-        $this->controllerClass = $this->controllerManager->get($this->controllerName);
-        $this->assertInstanceOf(DispatchableInterface::class, $this->controllerClass);
+        $this->controllerClass = $this->controllerManager->get(
+            $this->controllerName
+        );
+
+        $this->assertInstanceOf(
+            DispatchableInterface::class,
+            $this->controllerClass
+        );
     }
 
     /**
@@ -94,7 +104,10 @@ abstract class AbstractControllerTest extends TestCase
     {
         $request = new Request();
         $request->setUri($uri);
-        $this->setRequest($request);
+
+        $this->setRequest(
+            $request
+        );
 
         return $this;
     }
@@ -122,7 +135,10 @@ abstract class AbstractControllerTest extends TestCase
      */
     public function shouldHaveViewVariables(array $variables)
     {
-        $this->assertEquals($this->model->getVariables(), $variables);
+        $this->assertEquals(
+            $this->model->getVariables(),
+            $variables
+        );
 
         return $this;
     }
@@ -136,9 +152,15 @@ abstract class AbstractControllerTest extends TestCase
     public function shouldReturnA($modelType)
     {
         $this->controllerClass->setEvent($this->application->getMvcEvent());
-        $response = $this->controllerClass->dispatch($this->application->getRequest());
 
-        $this->assertInstanceOf($modelType, $response);
+        $response = $this->controllerClass->dispatch(
+            $this->application->getRequest()
+        );
+
+        $this->assertInstanceOf(
+            $modelType,
+            $response
+        );
 
         $this->model = $response;
 
@@ -153,10 +175,12 @@ abstract class AbstractControllerTest extends TestCase
      */
     public function shouldRunAction($action)
     {
-        $this->assertEquals($action, $this->application->getMvcEvent()->getRouteMatch()->getParam('action'));
+        $this->assertEquals(
+            $action,
+            $this->application->getMvcEvent()->getRouteMatch()->getParam('action')
+        );
 
         return $this;
-
     }
 
     /**
@@ -169,7 +193,10 @@ abstract class AbstractControllerTest extends TestCase
     {
         /* @var Request $request */
         $request = $this->application->getRequest();
-        $request->setQuery(new Parameters($parameters));
+
+        $request->setQuery(
+            new Parameters($parameters)
+        );
 
         return $this;
     }
@@ -193,7 +220,10 @@ abstract class AbstractControllerTest extends TestCase
         $match = $mvcEvent->getRouter()->match($this->application->getRequest());
         $mvcEvent->setRouteMatch($match);
 
-        $this->assertEquals($match->getMatchedRouteName(), $routeName);
+        $this->assertEquals(
+            $match->getMatchedRouteName(),
+            $routeName
+        );
 
         return $this;
     }
