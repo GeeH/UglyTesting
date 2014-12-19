@@ -54,7 +54,7 @@ abstract class AbstractControllerTest extends TestCase
     /**
      * Sets the controller name and checks the controller is able to be located
      *
-     * @param $controllerName
+     * @param  string $controllerName
      * @return self
      */
     public function testsController($controllerName)
@@ -87,9 +87,7 @@ abstract class AbstractControllerTest extends TestCase
     }
 
     /**
-     * Sets the Uri of the request to spoof the Uri that was requested
-     *
-     * @param $uri
+     * @param  string $uri
      * @return self
      */
     public function givenUrl($uri)
@@ -104,7 +102,7 @@ abstract class AbstractControllerTest extends TestCase
     /**
      * Sets the request to the right places
      *
-     * @param $request
+     * @param Request $request
      */
     protected function setRequest($request)
     {
@@ -119,7 +117,7 @@ abstract class AbstractControllerTest extends TestCase
     /**
      * Asserts that the returned ViewModel has the expected view variables set
      *
-     * @param array $variables
+     * @param  array  $variables
      * @return self
      */
     public function shouldHaveViewVariables(array $variables)
@@ -132,7 +130,7 @@ abstract class AbstractControllerTest extends TestCase
     /**
      * Asserts that the returned ViewModelInterface is of the correct type (dispatches request)
      *
-     * @param $modelType
+     * @param  string $modelType
      * @return self
      */
     public function shouldReturnA($modelType)
@@ -150,7 +148,7 @@ abstract class AbstractControllerTest extends TestCase
     /**
      * Asserts that the action that is resolved by router is correct
      *
-     * @param $action
+     * @param  string $action
      * @return self
      */
     public function shouldRunAction($action)
@@ -164,12 +162,12 @@ abstract class AbstractControllerTest extends TestCase
     /**
      * Sets the query string parameters that would be sent with the Uri
      *
-     * @param array $parameters
+     * @param  array  $parameters
      * @return self
      */
     public function givenQueryParameters(array $parameters)
     {
-        /** @var Request $request */
+        /* @var Request $request */
         $request = $this->application->getRequest();
         $request->setQuery(new Parameters($parameters));
 
@@ -179,7 +177,7 @@ abstract class AbstractControllerTest extends TestCase
     /**
      * Checks that the routed Uri resolves to the expected route name (routes request)
      *
-     * @param $routeName
+     * @param  string $routeName
      * @return self
      */
     public function shouldRouteTo($routeName)
@@ -203,8 +201,8 @@ abstract class AbstractControllerTest extends TestCase
     /**
      * Sets a property of the controller to a mock object either by setter, or by reflection
      *
-     * @param $property
-     * @param $mock
+     * @param  string $property
+     * @param  object $mock
      * @return self
      */
     public function givenMockedClass($property, $mock)
