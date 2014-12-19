@@ -55,7 +55,7 @@ abstract class AbstractControllerTest extends TestCase
      * Sets the controller name and checks the controller is able to be located
      *
      * @param $controllerName
-     * @return $this
+     * @return self
      */
     public function testsController($controllerName)
     {
@@ -90,7 +90,7 @@ abstract class AbstractControllerTest extends TestCase
      * Sets the Uri of the request to spoof the Uri that was requested
      *
      * @param $uri
-     * @return $this
+     * @return self
      */
     public function givenUrl($uri)
     {
@@ -120,7 +120,7 @@ abstract class AbstractControllerTest extends TestCase
      * Asserts that the returned ViewModel has the expected view variables set
      *
      * @param array $variables
-     * @return $this
+     * @return self
      */
     public function shouldHaveViewVariables(array $variables)
     {
@@ -133,7 +133,7 @@ abstract class AbstractControllerTest extends TestCase
      * Asserts that the returned ViewModelInterface is of the correct type (dispatches request)
      *
      * @param $modelType
-     * @return $this
+     * @return self
      */
     public function shouldReturnA($modelType)
     {
@@ -151,7 +151,7 @@ abstract class AbstractControllerTest extends TestCase
      * Asserts that the action that is resolved by router is correct
      *
      * @param $action
-     * @return $this
+     * @return self
      */
     public function shouldRunAction($action)
     {
@@ -165,7 +165,7 @@ abstract class AbstractControllerTest extends TestCase
      * Sets the query string parameters that would be sent with the Uri
      *
      * @param array $parameters
-     * @return $this
+     * @return self
      */
     public function givenQueryParameters(array $parameters)
     {
@@ -180,7 +180,7 @@ abstract class AbstractControllerTest extends TestCase
      * Checks that the routed Uri resolves to the expected route name (routes request)
      *
      * @param $routeName
-     * @return $this
+     * @return self
      */
     public function shouldRouteTo($routeName)
     {
@@ -205,7 +205,7 @@ abstract class AbstractControllerTest extends TestCase
      *
      * @param $property
      * @param $mock
-     * @return $this
+     * @return self
      */
     public function givenMockedClass($property, $mock)
     {
