@@ -55,7 +55,7 @@ abstract class AbstractControllerTest extends TestCase
      * Sets the controller name and checks the controller is able to be located
      *
      * @param  string $controllerName
-     * @return self
+     * @return $this
      */
     public function testsController($controllerName)
     {
@@ -71,12 +71,8 @@ abstract class AbstractControllerTest extends TestCase
      */
     protected function setUpServiceManager()
     {
-        $this->serviceManager = Application::init(
-            require $this->config
-        )->getServiceManager();
-
+        $this->serviceManager = Application::init(require $this->config)->getServiceManager();
         $this->serviceManager->setAllowOverride(true);
-
         $this->controllerManager = $this->serviceManager->get('ControllerManager');
         $this->application       = $this->serviceManager->get('Application');
     }
@@ -86,28 +82,19 @@ abstract class AbstractControllerTest extends TestCase
      */
     protected function createController()
     {
-        $this->controllerClass = $this->controllerManager->get(
-            $this->controllerName
-        );
-
-        $this->assertInstanceOf(
-            DispatchableInterface::class,
-            $this->controllerClass
-        );
+        $this->controllerClass = $this->controllerManager->get($this->controllerName);
+        $this->assertInstanceOf(DispatchableInterface::class, $this->controllerClass);
     }
 
     /**
      * @param  string $uri
-     * @return self
+     * @return $this
      */
     public function givenUrl($uri)
     {
         $request = new Request();
         $request->setUri($uri);
-
-        $this->setRequest(
-            $request
-        );
+        $this->setRequest($request);
 
         return $this;
     }
@@ -131,14 +118,11 @@ abstract class AbstractControllerTest extends TestCase
      * Asserts that the returned ViewModel has the expected view variables set
      *
      * @param  array  $variables
-     * @return self
+     * @return $this
      */
     public function shouldHaveViewVariables(array $variables)
     {
-        $this->assertEquals(
-            $this->model->getVariables(),
-            $variables
-        );
+        $this->assertEquals($this->model->getVariables(), $variables);
 
         return $this;
     }
@@ -147,20 +131,14 @@ abstract class AbstractControllerTest extends TestCase
      * Asserts that the returned ViewModelInterface is of the correct type (dispatches request)
      *
      * @param  string $modelType
-     * @return self
+     * @return $this
      */
     public function shouldReturnA($modelType)
     {
         $this->controllerClass->setEvent($this->application->getMvcEvent());
+        $response = $this->controllerClass->dispatch($this->application->getRequest());
 
-        $response = $this->controllerClass->dispatch(
-            $this->application->getRequest()
-        );
-
-        $this->assertInstanceOf(
-            $modelType,
-            $response
-        );
+        $this->assertInstanceOf($modelType, $response);
 
         $this->model = $response;
 
@@ -171,32 +149,27 @@ abstract class AbstractControllerTest extends TestCase
      * Asserts that the action that is resolved by router is correct
      *
      * @param  string $action
-     * @return self
+     * @return $this
      */
     public function shouldRunAction($action)
     {
-        $this->assertEquals(
-            $action,
-            $this->application->getMvcEvent()->getRouteMatch()->getParam('action')
-        );
+        $this->assertEquals($action, $this->application->getMvcEvent()->getRouteMatch()->getParam('action'));
 
         return $this;
+
     }
 
     /**
      * Sets the query string parameters that would be sent with the Uri
      *
      * @param  array  $parameters
-     * @return self
+     * @return $this
      */
     public function givenQueryParameters(array $parameters)
     {
         /* @var Request $request */
         $request = $this->application->getRequest();
-
-        $request->setQuery(
-            new Parameters($parameters)
-        );
+        $request->setQuery(new Parameters($parameters));
 
         return $this;
     }
@@ -205,7 +178,7 @@ abstract class AbstractControllerTest extends TestCase
      * Checks that the routed Uri resolves to the expected route name (routes request)
      *
      * @param  string $routeName
-     * @return self
+     * @return $this
      */
     public function shouldRouteTo($routeName)
     {
@@ -220,10 +193,7 @@ abstract class AbstractControllerTest extends TestCase
         $match = $mvcEvent->getRouter()->match($this->application->getRequest());
         $mvcEvent->setRouteMatch($match);
 
-        $this->assertEquals(
-            $match->getMatchedRouteName(),
-            $routeName
-        );
+        $this->assertEquals($match->getMatchedRouteName(), $routeName);
 
         return $this;
     }
@@ -233,7 +203,7 @@ abstract class AbstractControllerTest extends TestCase
      *
      * @param  string $property
      * @param  object $mock
-     * @return self
+     * @return $this
      */
     public function givenMockedClass($property, $mock)
     {
