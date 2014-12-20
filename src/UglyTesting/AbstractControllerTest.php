@@ -12,34 +12,40 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\DispatchableInterface;
 use Zend\Stdlib\Parameters;
 use Zend\View\Model\ModelInterface;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * Created by Gary Hockin.
  * Date: 17/12/14
  * @GeeH
  */
-abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractControllerTest extends TestCase
 {
     /**
      * @var string
      */
     public $config = 'config/application.config.php';
+
     /**
      * @var Application
      */
     protected $application;
+
     /**
      * @var string
      */
     protected $controllerName;
+
     /**
      * @var AbstractActionController
      */
     protected $controllerClass;
+
     /**
      * @var ServiceManager
      */
     protected $serviceManager;
+
     /**
      * @var ModelInterface
      */
@@ -48,7 +54,7 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Sets the controller name and checks the controller is able to be located
      *
-     * @param $controllerName
+     * @param  string $controllerName
      * @return $this
      */
     public function testsController($controllerName)
@@ -81,9 +87,7 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Sets the Uri of the request to spoof the Uri that was requested
-     *
-     * @param $uri
+     * @param  string $uri
      * @return $this
      */
     public function givenUrl($uri)
@@ -98,7 +102,7 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Sets the request to the right places
      *
-     * @param $request
+     * @param Request $request
      */
     protected function setRequest($request)
     {
@@ -113,7 +117,7 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Asserts that the returned ViewModel has the expected view variables set
      *
-     * @param array $variables
+     * @param  array  $variables
      * @return $this
      */
     public function shouldHaveViewVariables(array $variables)
@@ -126,7 +130,7 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Asserts that the returned ViewModelInterface is of the correct type (dispatches request)
      *
-     * @param $modelType
+     * @param  string $modelType
      * @return $this
      */
     public function shouldReturnA($modelType)
@@ -144,7 +148,7 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Asserts that the action that is resolved by router is correct
      *
-     * @param $action
+     * @param  string $action
      * @return $this
      */
     public function shouldRunAction($action)
@@ -158,12 +162,12 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Sets the query string parameters that would be sent with the Uri
      *
-     * @param array $parameters
+     * @param  array  $parameters
      * @return $this
      */
     public function givenQueryParameters(array $parameters)
     {
-        /** @var Request $request */
+        /* @var Request $request */
         $request = $this->application->getRequest();
         $request->setQuery(new Parameters($parameters));
 
@@ -173,16 +177,16 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Checks that the routed Uri resolves to the expected route name (routes request)
      *
-     * @param $routeName
+     * @param  string $routeName
      * @return $this
      */
     public function shouldRouteTo($routeName)
     {
         $routerFactory = new RouterFactory();
-        
+
         /* @var RouteStackInterface $router */
         $router = $routerFactory->createService($this->serviceManager);
-        
+
         $mvcEvent = $this->application->getMvcEvent();
         $mvcEvent->setRouter($router);
 
@@ -197,8 +201,8 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Sets a property of the controller to a mock object either by setter, or by reflection
      *
-     * @param $property
-     * @param $mock
+     * @param  string $property
+     * @param  object $mock
      * @return $this
      */
     public function givenMockedClass($property, $mock)
@@ -217,5 +221,4 @@ abstract class AbstractControllerTest extends \PHPUnit_Framework_TestCase
 
         return $this;
     }
-
 }

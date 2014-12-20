@@ -14,8 +14,6 @@ use Zend\Stdlib\Hydrator\ClassMethods;
 
 class Module
 {
-
-
     public function getConfig()
     {
         return [
@@ -49,8 +47,7 @@ class Module
     {
         return [
             'factories' => [
-                TestController::class => function(ControllerManager $controllerManager)
-                {
+                TestController::class => function (ControllerManager $controllerManager) {
                     return new TestController($controllerManager->getServiceLocator()->get(ClassMethods::class));
                 }
             ],
