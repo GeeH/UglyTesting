@@ -15,7 +15,7 @@ use Zend\View\Model\ViewModel;
 class AbstractControllerTestTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var SampleControllerTestFile
+     * @var SampleControllerTestCaseFile
      */
     protected $controllerTest;
 
