@@ -19,7 +19,7 @@ use PHPUnit_Framework_TestCase as TestCase;
  * Date: 17/12/14
  * @GeeH
  */
-abstract class AbstractControllerTest extends TestCase
+abstract class AbstractControllerTestCase extends TestCase
 {
     /**
      * @var string
