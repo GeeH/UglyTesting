@@ -10,6 +10,7 @@ namespace Test\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\View\Model\ViewModel;
 
 class TestController extends AbstractActionController
 {
@@ -32,7 +33,7 @@ class TestController extends AbstractActionController
     public function indexAction()
     {
         $this->hydrator->hydrate(['hello' => 'mum'], new \stdClass());
-        return ['jimmy' => 'nail'];
+        return new ViewModel(['jimmy' => 'nail', 'colin' => 'pascoe']);
     }
 
     /**

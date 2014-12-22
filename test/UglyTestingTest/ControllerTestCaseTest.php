@@ -12,7 +12,7 @@ use Test\Controller\TestController;
 use UglyTestingTest\Asset\SampleControllerTestFile;
 use Zend\View\Model\ViewModel;
 
-class AbstractControllerTestTest extends \PHPUnit_Framework_TestCase
+class AbstractControllerTestCaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var SampleControllerTestFile
@@ -21,9 +21,8 @@ class AbstractControllerTestTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->controllerTest = new SampleControllerTestFile();
-        $this->controllerTest->config = __DIR__ .'/../config/testing.config.php';
-
+        $this->controllerTest         = new SampleControllerTestFile();
+        $this->controllerTest->config = __DIR__ . '/../config/testing.config.php';
     }
 
     public function testController()
@@ -41,6 +40,15 @@ class AbstractControllerTestTest extends \PHPUnit_Framework_TestCase
             ->shouldRouteTo('test-route')
             ->shouldRunAction('index', 'test-route')
             ->shouldReturnA(ViewModel::class)
-            ->shouldHaveViewVariables(['jimmy' => 'nail']);
+            ->shouldHaveViewVariables(['jimmy' => 'nail', 'colin' => 'pascoe']);
+    }
+
+    public function testControllerWithoutControllerExcepts()
+    {
+        $this->setExpectedException(
+            'InvalidArgumentException', 'Controller class needs to be set before specifying givens'
+        );
+
+        $this->controllerTest->givenUrl('/home');
     }
 }
