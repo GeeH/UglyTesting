@@ -46,7 +46,8 @@ class AbstractControllerTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testControllerWithoutControllerExcepts()
     {
         $this->setExpectedException(
-            'InvalidArgumentException', 'Controller class needs to be set before specifying givens'
+            'InvalidArgumentException',
+            'Controller class needs to be set before specifying givens'
         );
 
         $this->controllerTest->givenUrl('/home');

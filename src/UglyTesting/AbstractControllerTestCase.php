@@ -92,7 +92,7 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function givenUrl($uri)
     {
-        if(!$this->controllerClass) {
+        if (!$this->controllerClass) {
             throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
         }
 
@@ -126,7 +126,7 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function shouldHaveViewVariables(array $variables)
     {
-        if(!$this->controllerClass) {
+        if (!$this->controllerClass) {
             throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
         }
 
@@ -143,7 +143,7 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function shouldReturnA($modelType)
     {
-        if(!$this->controllerClass) {
+        if (!$this->controllerClass) {
             throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
         }
 
@@ -165,7 +165,7 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function shouldRunAction($action)
     {
-        if(!$this->controllerClass) {
+        if (!$this->controllerClass) {
             throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
         }
 
@@ -183,7 +183,7 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function givenQueryParameters(array $parameters)
     {
-        if(!$this->controllerClass) {
+        if (!$this->controllerClass) {
             throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
         }
 
@@ -202,7 +202,7 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function shouldRouteTo($routeName)
     {
-        if(!$this->controllerClass) {
+        if (!$this->controllerClass) {
             throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
         }
 
@@ -231,7 +231,7 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function givenMockedClass($property, $mock)
     {
-        if(!$this->controllerClass) {
+        if (!$this->controllerClass) {
             throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
         }
 
