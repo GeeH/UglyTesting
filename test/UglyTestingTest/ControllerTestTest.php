@@ -28,7 +28,7 @@ class AbstractControllerTestTest extends \PHPUnit_Framework_TestCase
 
     public function testController()
     {
-        $this->controllerTest->testsController(TestController::class);
+        $this->controllerTest->givenTestsController(TestController::class);
 
         $mock = $this->getMock(ClassMethods::class, ['hydrate']);
         $mock->expects($this->once())

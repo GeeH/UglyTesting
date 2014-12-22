@@ -57,7 +57,7 @@ abstract class AbstractControllerTestCase extends TestCase
      * @param  string $controllerName
      * @return $this
      */
-    public function testsController($controllerName)
+    public function givenTestsController($controllerName)
     {
         $this->setUpServiceManager();
         $this->controllerName = $controllerName;
