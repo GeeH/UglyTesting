@@ -2,6 +2,7 @@
 
 namespace UglyTesting;
 
+use PHPUnit_Framework_TestCase as TestCase;
 use ReflectionObject;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\Application;
@@ -12,7 +13,6 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\DispatchableInterface;
 use Zend\Stdlib\Parameters;
 use Zend\View\Model\ModelInterface;
-use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * Created by Gary Hockin.
@@ -92,6 +92,10 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function givenUrl($uri)
     {
+        if (!$this->controllerClass) {
+            throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
+        }
+
         $request = new Request();
         $request->setUri($uri);
         $this->setRequest($request);
@@ -117,12 +121,16 @@ abstract class AbstractControllerTestCase extends TestCase
     /**
      * Asserts that the returned ViewModel has the expected view variables set
      *
-     * @param  array  $variables
+     * @param  array $variables
      * @return $this
      */
     public function shouldHaveViewVariables(array $variables)
     {
-        $this->assertEquals($this->model->getVariables(), $variables);
+        if (!$this->controllerClass) {
+            throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
+        }
+
+        $this->assertEquals((array) $this->model->getVariables(), $variables);
 
         return $this;
     }
@@ -135,6 +143,10 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function shouldReturnA($modelType)
     {
+        if (!$this->controllerClass) {
+            throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
+        }
+
         $this->controllerClass->setEvent($this->application->getMvcEvent());
         $response = $this->controllerClass->dispatch($this->application->getRequest());
 
@@ -153,6 +165,10 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function shouldRunAction($action)
     {
+        if (!$this->controllerClass) {
+            throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
+        }
+
         $this->assertEquals($action, $this->application->getMvcEvent()->getRouteMatch()->getParam('action'));
 
         return $this;
@@ -162,11 +178,15 @@ abstract class AbstractControllerTestCase extends TestCase
     /**
      * Sets the query string parameters that would be sent with the Uri
      *
-     * @param  array  $parameters
+     * @param  array $parameters
      * @return $this
      */
     public function givenQueryParameters(array $parameters)
     {
+        if (!$this->controllerClass) {
+            throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
+        }
+
         /* @var Request $request */
         $request = $this->application->getRequest();
         $request->setQuery(new Parameters($parameters));
@@ -182,6 +202,10 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function shouldRouteTo($routeName)
     {
+        if (!$this->controllerClass) {
+            throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
+        }
+
         $routerFactory = new RouterFactory();
 
         /* @var RouteStackInterface $router */
@@ -207,9 +231,14 @@ abstract class AbstractControllerTestCase extends TestCase
      */
     public function givenMockedClass($property, $mock)
     {
+        if (!$this->controllerClass) {
+            throw new \InvalidArgumentException('Controller class needs to be set before specifying givens');
+        }
+
         $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
         if (method_exists($this->controllerClass, $setter)) {
             $this->controllerClass->$setter($mock);
+
             return $this;
         }
 
