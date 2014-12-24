@@ -11,5 +11,4 @@ script:
     - make tests phpcs
 
 notifications:
-    irc: "irc.freenode.org#roave"
-    email: false
+    email: true
