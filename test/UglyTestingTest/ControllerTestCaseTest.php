@@ -43,13 +43,30 @@ class AbstractControllerTestCaseTest extends \PHPUnit_Framework_TestCase
             ->shouldHaveViewVariables(['jimmy' => 'nail', 'colin' => 'pascoe']);
     }
 
-    public function testControllerWithoutControllerExcepts()
+    public function methodsThatExceptDataProvider()
+    {
+        return [
+            ['givenUrl',  ['/home']],
+            ['shouldRunAction', ['index']],
+            ['givenQueryParameters', [['foo' => 'bar']]],
+            ['shouldRouteTo', ['home']],
+            ['givenMockedClass', ['serviceManager', 'mock']],
+            ['shouldHaveViewVariables', [['foo' => 'bar']]],
+            ['shouldReturnA', ['ViewModel']],
+
+        ];
+    }
+
+    /**
+     * @dataProvider methodsThatExceptDataProvider
+     */
+    public function testControllerWithoutControllerExcepts($method, $parameters)
     {
         $this->setExpectedException(
             'InvalidArgumentException',
             'Controller class needs to be set before specifying givens'
         );
 
-        $this->controllerTest->givenUrl('/home');
+        call_user_func_array([$this->controllerTest, $method], $parameters);
     }
 }
